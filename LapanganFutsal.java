@@ -1,8 +1,9 @@
 package com.mycompany.sistemreservasilapanganolahraga;
 
-public class LapanganFutsal extends Lapangan {
+public class LapanganFutsal extends Lapangan implements DapatDipesan {
     private String jenisRumput;
     private boolean tersediaMalam;
+    
 
     public LapanganFutsal(
             String namaLapangan,
@@ -14,7 +15,7 @@ public class LapanganFutsal extends Lapangan {
         super(namaLapangan, lokasi, hargaPerJam);
         this.jenisRumput = jenisRumput;
         this.tersediaMalam = tersediaMalam;
-    }
+        }
 
     public String getJenisRumput() {
         return this.jenisRumput;
@@ -50,6 +51,13 @@ public class LapanganFutsal extends Lapangan {
     public void cekFasilitas() {
         System.out.println(
             "-> Fasilitas: gawang, lampu lapangan, ruang ganti, dan toilet."
+        );
+    }
+    
+    @Override
+    public void tampilkanAturanReservasi() {
+        System.out.println(
+            "Aturan: Reservasi futsal dihitung berdasarkan durasi jam."
         );
     }
 }

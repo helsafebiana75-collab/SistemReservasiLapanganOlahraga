@@ -1,6 +1,6 @@
 package com.mycompany.sistemreservasilapanganolahraga;
 
-public class LapanganBasket extends Lapangan {
+public class LapanganBasket extends Lapangan implements DapatDipesan {
     private String jenisLantai;
     private boolean tersediaMalam;
 
@@ -50,6 +50,14 @@ public class LapanganBasket extends Lapangan {
     public void cekFasilitas() {
         System.out.println(
             "-> Fasilitas: ring basket, lampu lapangan, tempat duduk, dan toilet."
+        );
+    }
+    
+    
+    @Override
+    public void tampilkanAturanReservasi() {
+        System.out.println(
+            "Aturan: Reservasi basket dihitung berdasarkan durasi jam."
         );
     }
 }

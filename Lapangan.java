@@ -1,6 +1,7 @@
 package com.mycompany.sistemreservasilapanganolahraga;
 
-public class Lapangan {
+public abstract class Lapangan {
+    public abstract void cekFasilitas();
     private String namaLapangan;
     private String lokasi;
     private int hargaPerJam;
@@ -60,7 +61,6 @@ public class Lapangan {
         );
     }
 
-    public void cekFasilitas() {
-        System.out.println("Fasilitas standar tersedia.");
-    }
+
+    
 }

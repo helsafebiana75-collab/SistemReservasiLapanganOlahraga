@@ -1,6 +1,6 @@
 package com.mycompany.sistemreservasilapanganolahraga;
 
-public class LapanganBadminton extends Lapangan {
+public class LapanganBadminton extends Lapangan implements DapatDipesan {
     private String jenisLantai;
     private int jumlahNet;
 
@@ -56,4 +56,13 @@ public class LapanganBadminton extends Lapangan {
             "-> Fasilitas: net badminton, lampu lapangan, tempat duduk, dan toilet."
         );
     }
+    
+    
+    @Override
+    public void tampilkanAturanReservasi() {
+        System.out.println(
+            "Aturan: Reservasi badminton dihitung berdasarkan durasi jam."
+        );
+    }
+
 }
