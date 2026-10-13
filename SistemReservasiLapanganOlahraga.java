@@ -111,7 +111,7 @@ public class SistemReservasiLapanganOlahraga {
         lapangan.tampilkanInfo();
 
         System.out.println("Memeriksa fasilitas...");
-        lapangan.1cekFasilitas();
+        lapangan.cekFasilitas();
 
         System.out.println("Reservasi berhasil diproses.");
      }
@@ -127,9 +127,13 @@ public class SistemReservasiLapanganOlahraga {
         
         
         if (lapangan instanceof DapatDipesan) {
-            DapatDipesan reservasi =
-                    (DapatDipesan) lapangan;
+            DapatDipesan reservasi = (DapatDipesan) lapangan;
             reservasi.tampilkanAturanReservasi();
+        }
+        
+        if (lapangan instanceof DapatDiperiksa) {
+            DapatDiperiksa status = (DapatDiperiksa) lapangan;
+            status.tampilkanStatusLapangan();
         }
         System.out.println("Reservasi berhasil diproses.");
     }

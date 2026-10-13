@@ -1,6 +1,6 @@
 package com.mycompany.sistemreservasilapanganolahraga;
 
-public class LapanganFutsal extends Lapangan implements DapatDipesan {
+public class LapanganFutsal extends Lapangan implements DapatDipesan, DapatDiperiksa {
     private String jenisRumput;
     private boolean tersediaMalam;
     
@@ -55,9 +55,22 @@ public class LapanganFutsal extends Lapangan implements DapatDipesan {
     }
     
     @Override
-    public void tampilkanAturanReservasi() {
-        System.out.println(
-            "Aturan: Reservasi futsal dihitung berdasarkan durasi jam."
-        );
+public void tampilkanAturanReservasi() {
+    System.out.println(
+        "Aturan: Reservasi futsal dihitung berdasarkan durasi jam."
+    );
+}
+ 
+    @Override
+    public void tampilkanStatusLapangan() {
+        if (this.tersediaMalam) {
+            System.out.println(
+                "Status: Lapangan futsal tersedia untuk malam hari."
+            );
+        } else {
+            System.out.println(
+                "Status: Lapangan futsal tidak tersedia untuk malam hari."
+            );
+        }
     }
 }
