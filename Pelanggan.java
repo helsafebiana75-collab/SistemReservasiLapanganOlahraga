@@ -1,6 +1,10 @@
 package com.mycompany.sistemreservasilapanganolahraga;
 
-public class Pelanggan {
+import java.io.Serializable;
+
+public class Pelanggan implements Serializable {
+    private static final long serialVersionUID = 1L;
+    
     private String nama;
     private String nomorTelepon;
     private String alamat;

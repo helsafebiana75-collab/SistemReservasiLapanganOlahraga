@@ -1,6 +1,11 @@
 package com.mycompany.sistemreservasilapanganolahraga;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
+import java.util.HashMap;
+import java.util.InputMismatchException;
 
 public class SistemReservasiLapanganOlahraga {
 
@@ -26,9 +31,36 @@ public class SistemReservasiLapanganOlahraga {
 
         if (!ditemukan) {
             System.out.println("Lapangan tidak ditemukan.");
+            
         }
+        
     }
+            
+        public static Lapangan cariLapangan(
+            String nama,
+            ArrayList<Lapangan> daftarLapangan)
+                throws LapanganTidakDitemukanException {
 
+            if (nama == null || nama.trim().isEmpty()) {
+                throw new LapanganTidakDitemukanException(
+                        "Nama lapangan tidak boleh kosong."
+                );
+            }
+
+            for (Lapangan lapangan : daftarLapangan) {
+
+                if (lapangan.getNamaLapangan()
+                        .equalsIgnoreCase(nama)) {
+
+                    return lapangan;
+                }
+            }
+
+            throw new LapanganTidakDitemukanException(
+                    "Lapangan " + nama + " tidak ditemukan."
+            );
+        }
+      
     public static void cariLapangan(
             int harga,
             Lapangan[] daftarLapangan,
@@ -141,63 +173,71 @@ public class SistemReservasiLapanganOlahraga {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        Lapangan[] daftarLapangan = new Lapangan[20];
-        int jumlahLapangan = 0;
+        ArrayList<Lapangan> daftarLapangan =
+                new ArrayList<>();
+        HashMap<String, Pelanggan> dataPelanggan =
+                new HashMap<>();
         boolean isRunning = true;
-
-        daftarLapangan[jumlahLapangan++] =
+        
+        daftarLapangan.add(
                 new LapanganFutsal(
                         "Futsal Arena 1",
                         "Rajabasa",
                         80000,
                         "Sintetis",
                         true
+                )
                 );
 
-        daftarLapangan[jumlahLapangan++] =
+        daftarLapangan.add(
                 new LapanganFutsal(
                         "Futsal Arena 2",
                         "Kedaton",
                         90000,
                         "Vinyl",
                         true
+                )
                 );
 
-        daftarLapangan[jumlahLapangan++] =
+        daftarLapangan.add(
                 new LapanganFutsal(
                         "Futsal Galaxy",
                         "Labuhan Ratu",
                         75000,
                         "Sintetis",
                         false
+                )
                 );
 
-        daftarLapangan[jumlahLapangan++] =
+        daftarLapangan.add(
                 new LapanganBadminton(
                         "Badminton Hall A",
                         "Rajabasa",
                         60000,
                         "Vinyl",
                         2
+                )
                 );
         
 
-        daftarLapangan[jumlahLapangan++] =
+        daftarLapangan.add(
                 new LapanganBadminton(
                         "Badminton Hall B",
                         "Kedaton",
                         70000,
                         "Karpet",
                         3
+                )
                 );
         
-        daftarLapangan[jumlahLapangan++] =
+        daftarLapangan.add(
         new LapanganBasket(
                 "Basket Arena",
                 "Rajabasa",
                 70000,
                 "Vinyl",
                 true
+        )
         );
     
         System.out.println("==============================================");
@@ -212,7 +252,7 @@ public class SistemReservasiLapanganOlahraga {
             System.out.println("3. Pencarian Lapangan");
             System.out.println("4. Cek Fasilitas Lapangan");
             System.out.println("5. Proses Reservasi");
-            System.out.println("6. Tampilkan Data Pelanggan");
+            System.out.println("6. Kelola Data Pelanggan");
             System.out.println("7. Keluar");
             System.out.println("=========================================");
 
@@ -225,7 +265,7 @@ public class SistemReservasiLapanganOlahraga {
 
                 case 1:
 
-                    if (jumlahLapangan < daftarLapangan.length) {
+                    if (true) {
 
                         System.out.println("\n--- Pilih Jenis Lapangan ---");
                         System.out.println("1. Lapangan Futsal");
@@ -260,16 +300,15 @@ public class SistemReservasiLapanganOlahraga {
                             boolean tersediaMalam =
                                     malam.equalsIgnoreCase("y");
 
-                            daftarLapangan[jumlahLapangan] =
+                            daftarLapangan.add(
                                     new LapanganFutsal(
                                             nama,
                                             lokasi,
                                             harga,
                                             rumput,
                                             tersediaMalam
+                                    )
                                     );
-
-                            jumlahLapangan++;
 
                             System.out.println(
                                 "Data lapangan futsal berhasil ditambahkan!"
@@ -284,16 +323,16 @@ public class SistemReservasiLapanganOlahraga {
                             int jumlahNet = scanner.nextInt();
                             scanner.nextLine();
 
-                            daftarLapangan[jumlahLapangan] =
+                            daftarLapangan.add(
                                     new LapanganBadminton(
                                             nama,
                                             lokasi,
                                             harga,
                                             lantai,
                                             jumlahNet
+                                    )
                                     );
 
-                            jumlahLapangan++;
 
                             System.out.println(
                                 "Data lapangan badminton berhasil ditambahkan!"
@@ -313,16 +352,15 @@ public class SistemReservasiLapanganOlahraga {
                             boolean tersediaMalam =
                                     malam.equalsIgnoreCase("y");
 
-                            daftarLapangan[jumlahLapangan] =
+                            daftarLapangan.add(
                                     new LapanganBasket(
                                             nama,
                                             lokasi,
                                             harga,
                                             lantai,
                                             tersediaMalam
+                                    )
                                     );
-
-                            jumlahLapangan++;
 
                             System.out.println(
                                 "Data lapangan basket berhasil ditambahkan!"
@@ -349,7 +387,7 @@ public class SistemReservasiLapanganOlahraga {
                         "\n========== DAFTAR LAPANGAN =========="
                     );
 
-                    if (jumlahLapangan == 0) {
+                    if (daftarLapangan.isEmpty()) {
 
                         System.out.println(
                             "Belum ada data lapangan."
@@ -357,15 +395,14 @@ public class SistemReservasiLapanganOlahraga {
 
                     } else {
 
-                        for (int i = 0; i < jumlahLapangan; i++) {
+                        for (int i = 0; i < daftarLapangan.size(); i++) {
 
                             System.out.print((i + 1) + ". ");
+                            
+                            daftarLapangan.get(i).tampilkanInfo();
 
-                            // POLYMORPHISM
-                            // Akan memanggil method overriding
-                            daftarLapangan[i].tampilkanInfo();
+                            daftarLapangan.get(i).cekFasilitas();
 
-                            daftarLapangan[i].cekFasilitas();
 
                             System.out.println();
                         }
@@ -396,14 +433,14 @@ public class SistemReservasiLapanganOlahraga {
                     if (jenisCari == 1) {
 
                         System.out.print("Masukkan nama lapangan: ");
-
                         String namaCari = scanner.nextLine();
-
-                        cariLapangan(
-                                namaCari,
-                                daftarLapangan,
-                                jumlahLapangan
-                        );
+                        
+                        try {
+                            Lapangan hasil = cariLapangan(namaCari, daftarLapangan);
+                            hasil.tampilkanInfo();
+                        } catch (LapanganTidakDitemukanException e) {
+                            System.out.println(e.getMessage());
+                        }
 
                     } else if (jenisCari == 2) {
 
@@ -414,8 +451,8 @@ public class SistemReservasiLapanganOlahraga {
 
                         cariLapangan(
                                 hargaCari,
-                                daftarLapangan,
-                                jumlahLapangan
+                                daftarLapangan.toArray(new Lapangan[0]),
+                                daftarLapangan.size()
                         );
 
                     } else if (jenisCari == 3) {
@@ -454,8 +491,8 @@ public class SistemReservasiLapanganOlahraga {
                         cariLapangan(
                                 lokasiCari,
                                 tipe,
-                                daftarLapangan,
-                                jumlahLapangan
+                                daftarLapangan.toArray(new Lapangan[0]),
+                                daftarLapangan.size()
                         );
 
                     } else {
@@ -474,7 +511,7 @@ public class SistemReservasiLapanganOlahraga {
                         "\n======= CEK FASILITAS ======="
                     );
 
-                    if (jumlahLapangan == 0) {
+                    if (daftarLapangan.isEmpty()) {
 
                         System.out.println(
                             "Belum ada lapangan."
@@ -482,12 +519,13 @@ public class SistemReservasiLapanganOlahraga {
 
                     } else {
 
-                        for (int i = 0; i < jumlahLapangan; i++) {
-
-                            System.out.println(
-                                (i + 1) + ". "
-                                + daftarLapangan[i].getNamaLapangan()
-                            );
+                        for (int i = 0; i < daftarLapangan.size(); i++) {
+                            
+                        System.out.println(
+                            (i + 1) + ". " +
+                            daftarLapangan.get(i).getNamaLapangan()
+                        );    
+    
                         }
 
                         System.out.print(
@@ -497,11 +535,9 @@ public class SistemReservasiLapanganOlahraga {
                         int nomor = scanner.nextInt();
                         scanner.nextLine();
 
-                        if (nomor >= 1
-                                && nomor <= jumlahLapangan) {
+                        if (nomor >= 1 && nomor <= daftarLapangan.size()) {
 
-                            daftarLapangan[nomor - 1]
-                                    .cekFasilitas();
+                            daftarLapangan.get(nomor - 1).cekFasilitas();
 
                         } else {
 
@@ -518,7 +554,7 @@ public class SistemReservasiLapanganOlahraga {
                         "\n======= PROSES RESERVASI ======="
                     );
 
-                    if (jumlahLapangan == 0) {
+                    if (daftarLapangan.isEmpty()) {
 
                         System.out.println(
                             "Belum ada lapangan."
@@ -526,11 +562,11 @@ public class SistemReservasiLapanganOlahraga {
 
                     } else {
 
-                        for (int i = 0; i < jumlahLapangan; i++) {
+                        for (int i = 0; i < daftarLapangan.size(); i++) {
 
                             System.out.println(
                                 (i + 1) + ". "
-                                + daftarLapangan[i].getNamaLapangan()
+                                + daftarLapangan.get(i).getNamaLapangan()
                             );
                         }
 
@@ -551,11 +587,11 @@ public class SistemReservasiLapanganOlahraga {
                         scanner.nextLine();
 
                         if (nomorReservasi >= 1
-                                && nomorReservasi <= jumlahLapangan
+                                && nomorReservasi <= daftarLapangan.size()
                                 && durasi > 0) {
 
                             Lapangan lapanganDipilih =
-                                    daftarLapangan[nomorReservasi - 1];
+                                    daftarLapangan.get(nomorReservasi - 1);
 
                             prosesReservasi(
                                     lapanganDipilih,
@@ -572,35 +608,39 @@ public class SistemReservasiLapanganOlahraga {
 
                     break;
                 case 6 :
-                    Pelanggan pelanggan1 =
+                    dataPelanggan.put(
+                            "081234567890",
                             new Pelanggan(
                                     "Andi",
                                     "081234567890",
-                                    "Rajabasa"
-                            );
+                                    "Rajabasa")
+                    );
 
-                    Pelanggan pelanggan2 =
+                    dataPelanggan.put(
+                            "082345678901",
                             new Pelanggan(
                                     "Sinta",
                                     "082345678901",
-                                    "Kedaton"
-                            );
+                                    "Kedaton")
+                    );
 
-                    Pelanggan pelanggan3 =
+                    dataPelanggan.put(
+                            "083456789012",
                             new Pelanggan(
                                     "Rizky",
                                     "083456789012",
-                                    "Labuhan Ratu"
-                            );
+                                    "Labuhan Ratu")
+                    );
 
                     System.out.println(
                         "\n========== DATA PELANGGAN =========="
                     );
 
-                    pelanggan1.tampilkanInfoPelanggan();
-                    pelanggan2.tampilkanInfoPelanggan();
-                    pelanggan3.tampilkanInfoPelanggan();
-
+                    for (String key : dataPelanggan.keySet()) {
+                        System.out.println("Nomor telepon: " + key);
+                        dataPelanggan.get(key).tampilkanInfoPelanggan();
+                    }
+                    
                     System.out.println(
                         "Total pelanggan dibuat: "
                         + Pelanggan.totalPelanggan
@@ -636,9 +676,9 @@ public class SistemReservasiLapanganOlahraga {
                     System.out.println(
                         "Pilihan menu tidak valid."
                     );
-            }
+        }
         }
 
         scanner.close();
     }
-}
+    }
