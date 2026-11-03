@@ -173,13 +173,15 @@ public class SistemReservasiLapanganOlahraga {
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
+        PengelolaReservasi pengelola =
+                new PengelolaReservasi();
         ArrayList<Lapangan> daftarLapangan =
-                new ArrayList<>();
+                pengelola.getDaftarLapangan();
         HashMap<String, Pelanggan> dataPelanggan =
-                new HashMap<>();
+                pengelola.getDataPelanggan();
         boolean isRunning = true;
         
-        daftarLapangan.add(
+        pengelola.tambahLapangan(
                 new LapanganFutsal(
                         "Futsal Arena 1",
                         "Rajabasa",
@@ -189,7 +191,7 @@ public class SistemReservasiLapanganOlahraga {
                 )
                 );
 
-        daftarLapangan.add(
+        pengelola.tambahLapangan(
                 new LapanganFutsal(
                         "Futsal Arena 2",
                         "Kedaton",
@@ -199,7 +201,7 @@ public class SistemReservasiLapanganOlahraga {
                 )
                 );
 
-        daftarLapangan.add(
+        pengelola.tambahLapangan(
                 new LapanganFutsal(
                         "Futsal Galaxy",
                         "Labuhan Ratu",
@@ -209,7 +211,7 @@ public class SistemReservasiLapanganOlahraga {
                 )
                 );
 
-        daftarLapangan.add(
+        pengelola.tambahLapangan(
                 new LapanganBadminton(
                         "Badminton Hall A",
                         "Rajabasa",
@@ -220,7 +222,7 @@ public class SistemReservasiLapanganOlahraga {
                 );
         
 
-        daftarLapangan.add(
+        pengelola.tambahLapangan(
                 new LapanganBadminton(
                         "Badminton Hall B",
                         "Kedaton",
@@ -230,7 +232,7 @@ public class SistemReservasiLapanganOlahraga {
                 )
                 );
         
-        daftarLapangan.add(
+        pengelola.tambahLapangan(
         new LapanganBasket(
                 "Basket Arena",
                 "Rajabasa",
@@ -243,17 +245,20 @@ public class SistemReservasiLapanganOlahraga {
         System.out.println("==============================================");
         System.out.println("       SISTEM RESERVASI LAPANGAN OLAHRAGA    ");
         System.out.println("==============================================");
-
+        pengelola.tampilkanKomponen();
+        
         while (isRunning) {
 
             System.out.println("\n============== MENU UTAMA ==============");
             System.out.println("1. Tambah Data Lapangan");
-            System.out.println("2. Tampilkan Seluruh Data");
+         
+   System.out.println("2. Tampilkan Seluruh Data");
             System.out.println("3. Pencarian Lapangan");
             System.out.println("4. Cek Fasilitas Lapangan");
             System.out.println("5. Proses Reservasi");
             System.out.println("6. Kelola Data Pelanggan");
-            System.out.println("7. Keluar");
+            System.out.println("7. Transaksi Antar-Object");
+            System.out.println("8. Keluar");
             System.out.println("=========================================");
 
             System.out.print("Pilih menu: ");
@@ -608,24 +613,21 @@ public class SistemReservasiLapanganOlahraga {
 
                     break;
                 case 6 :
-                    dataPelanggan.put(
-                            "081234567890",
+                    pengelola.tambahPelanggan(
                             new Pelanggan(
                                     "Andi",
                                     "081234567890",
                                     "Rajabasa")
                     );
 
-                    dataPelanggan.put(
-                            "082345678901",
+                    pengelola.tambahPelanggan(
                             new Pelanggan(
                                     "Sinta",
                                     "082345678901",
                                     "Kedaton")
                     );
 
-                    dataPelanggan.put(
-                            "083456789012",
+                    pengelola.tambahPelanggan(
                             new Pelanggan(
                                     "Rizky",
                                     "083456789012",
@@ -651,33 +653,88 @@ public class SistemReservasiLapanganOlahraga {
 
                 case 7:
 
+                    System.out.println("\n===== TRANSAKSI ANTAR-OBJECT =====");
+
+                    if (dataPelanggan.isEmpty()) {
+                        System.out.println(
+                            "Data pelanggan kosong. Jalankan menu 6 terlebih dahulu."
+                           );
+                           break;
+                        }
+                    
+                    if (daftarLapangan.isEmpty()) {
+                        System.out.println("Data lapangan kosong.");
+                            break;
+                        }
+
+                        pengelola.lihatSemuaPelanggan();
+
+                    System.out.print("\nMasukkan nomor telepon pelanggan: ");
+                        String telepon = scanner.nextLine();
+
+                        Pelanggan pelanggan =
+                                pengelola.cariPelanggan(telepon);
+
+                    if (pelanggan == null) {
+                        System.out.println("Pelanggan tidak ditemukan.");
+                            break;
+                        }
+
+                    System.out.println("\n===== PILIH LAPANGAN =====");
+
+                        for (int i = 0; i < daftarLapangan.size(); i++) {
+                            System.out.print((i + 1) + ". ");
+                            daftarLapangan.get(i).tampilkanInfo();
+                        }
+
+                    System.out.print("\nPilih nomor lapangan: ");
+                        int nomor = scanner.nextInt();
+
+                    System.out.print("Masukkan durasi (jam): ");
+                        int durasi = scanner.nextInt();
+
+                        scanner.nextLine();
+
+                        if (nomor >= 1
+                                && nomor <= daftarLapangan.size()
+                                && durasi > 0) {
+
+                            Lapangan lapangan =
+                                    daftarLapangan.get(nomor - 1);
+
+                            TransaksiReservasi.prosesTransaksi(
+                                    pelanggan,
+                                    lapangan,
+                                    durasi
+                            );
+
+                        } else {
+                            System.out.println("Pilihan transaksi tidak valid.");
+                        }
+
+                       break;
+                        
+                        
+                case 8:
+
                     System.out.println(
-                        "\n========================================"
+                            "\n========================================"
+                    );
+                    System.out.println(
+                            "Terima kasih telah menggunakan"
+                    );
+                    System.out.println(
+                            "Sistem Reservasi Lapangan Olahraga!"
                     );
 
                     System.out.println(
-                        "Terima kasih telah menggunakan"
+                            "========================================"
                     );
-
-                    System.out.println(
-                        "Sistem Reservasi Lapangan Olahraga!"
-                    );
-
-                    System.out.println(
-                        "========================================"
-                    );
-
                     isRunning = false;
-
+                    
                     break;
-
-                default:
-
-                    System.out.println(
-                        "Pilihan menu tidak valid."
-                    );
-        }
-        }
+                    }
+                    }
 
         scanner.close();
     }
