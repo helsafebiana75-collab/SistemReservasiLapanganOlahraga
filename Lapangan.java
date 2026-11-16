@@ -1,6 +1,9 @@
 package com.mycompany.sistemreservasilapanganolahraga;
 
-public abstract class Lapangan {
+import java.io.Serializable;
+
+public abstract class Lapangan implements Serializable {
+    private static final long serialVersionUID = 1L;
     public abstract void cekFasilitas();
     private String namaLapangan;
     private String lokasi;
@@ -60,7 +63,7 @@ public abstract class Lapangan {
             this.hargaPerJam
         );
     }
-
-
+    
+    
     
 }

@@ -241,6 +241,11 @@ public class SistemReservasiLapanganOlahraga {
                 true
         )
         );
+        
+        PenyimpananReservasi.muatData(
+            daftarLapangan,
+            dataPelanggan
+        );
     
         System.out.println("==============================================");
         System.out.println("       SISTEM RESERVASI LAPANGAN OLAHRAGA    ");
@@ -259,6 +264,9 @@ public class SistemReservasiLapanganOlahraga {
             System.out.println("6. Kelola Data Pelanggan");
             System.out.println("7. Transaksi Antar-Object");
             System.out.println("8. Keluar");
+            System.out.println("9. Baca Riwayat Aktivitas");
+            System.out.println("10. Simpan Data");
+            System.out.println("11. Muat Data");
             System.out.println("=========================================");
 
             System.out.print("Pilih menu: ");
@@ -602,6 +610,12 @@ public class SistemReservasiLapanganOlahraga {
                                     lapanganDipilih,
                                     durasi
                             );
+                            
+                           PenyimpananReservasi.catatLog(
+                               "Reservasi lapangan: "
+                                + lapanganDipilih.getNamaLapangan()
+                                + " | Durasi: " + durasi + " jam"
+                            );
 
                         } else {
 
@@ -707,6 +721,14 @@ public class SistemReservasiLapanganOlahraga {
                                     lapangan,
                                     durasi
                             );
+                            
+                           PenyimpananReservasi.catatLog(
+                                "Transaksi pelanggan: "
+                                + pelanggan.getNama()
+                                + " | Lapangan: "
+                                + lapangan.getNamaLapangan()
+                                + " | Durasi: " + durasi + " jam"
+                            );
 
                         } else {
                             System.out.println("Pilihan transaksi tidak valid.");
@@ -726,13 +748,35 @@ public class SistemReservasiLapanganOlahraga {
                     System.out.println(
                             "Sistem Reservasi Lapangan Olahraga!"
                     );
-
-                    System.out.println(
-                            "========================================"
+                            
+                    PenyimpananReservasi.simpanData(
+                        daftarLapangan,
+                        dataPelanggan
                     );
                     isRunning = false;
                     
                     break;
+                   
+                    
+               case 9:
+                    PenyimpananReservasi.bacaLog();
+                    break;
+
+                    
+                case 10:
+                    PenyimpananReservasi.simpanData(
+                        daftarLapangan,
+                        dataPelanggan
+                    );
+                    break;
+
+                    
+                case 11:
+                    PenyimpananReservasi.muatData(
+                        daftarLapangan,
+                        dataPelanggan
+                    );
+                    break; 
                     }
                     }
 
